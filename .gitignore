@@ -1,0 +1,29 @@
+# Node modules
+node_modules/
+
+# Fichiers de logs
+logs/
+*.log
+npm-debug.log*
+
+# Variables d’environnement
+.env
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Dossiers temporaires
+tmp/
+temp/
+
+# Vues compilées (optionnel)
+views_compiled/
+
+# Cache
+.cache/
+.vscode/
+
+# Dossiers de build (si tu buildes)
+dist/
+build/
