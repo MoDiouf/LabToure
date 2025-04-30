@@ -13,7 +13,7 @@ next(error);
 });
 };
 exports.getSubscriptionPage = (req, res) => {
-res.render("subscribers/new");
+res.render("subscribers/news");
 };
 exports.saveSubscriber = (req, res) => {
 let newSubscriber = new Subscriber({

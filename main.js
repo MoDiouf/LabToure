@@ -1,3 +1,4 @@
+// Imports
 const express = require("express");
 const layouts = require("express-ejs-layouts");
 const mongoose = require("mongoose");
@@ -6,23 +7,18 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
-const homeController = require("./controllers/homeController");
-const errorController = require("./controllers/errorController");
-const subscribersController = require("./controllers/subscribersController");
-const usersController = require("./controllers/usersController");
-const coursesController = require("./controllers/coursesController");
-const authController = require("./controllers/authController");
+const httpStatus = require("http-status-codes");
+const routes = require("./routes/index");
 // Configuration de la connexion à MongoDB
 mongoose.connect(
 "mongodb://localhost:27017/ai_academy",
 { useNewUrlParser: true }
 );
-
-
 const db = mongoose.connection;
 db.once("open", () => {
 console.log("Connexion réussie à MongoDB en utilisant Mongoose!");
 });
+// Initialisation de l'application Express
 const app = express();
 // Configuration de l'application
 app.set("port", process.env.PORT || 3000);
@@ -31,6 +27,7 @@ app.use(express.static("public"));
 app.use(layouts);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
 app.use(methodOverride("_method", {
 methods: ["POST", "GET"]
 }));
@@ -59,13 +56,13 @@ app.use((req, res, next) => {
 res.locals.flashMessages = req.flash();
 res.locals.loggedIn = req.isAuthenticated();
 res.locals.currentUser = req.user;
-
 next();
 });
-// Routes...
-app.get("/login", authController.login);
-app.post("/login", authController.authenticate);
-app.get("/logout", authController.logout, usersController.redirectView);
-app.get("/signup", authController.signup);
-app.post("/signup", authController.register, usersController.redirectView);
+// Utilisation des routes
+app.use("/", routes);
 
+// Démarrage du serveur
+app.listen(app.get("port"), () => {
+console.log(`Le serveur a démarré et écoute sur le port: ${app.get("port")}`);
+console.log(`Serveur accessible à l'adresse: http://localhost:${app.get("port")}`);
+});

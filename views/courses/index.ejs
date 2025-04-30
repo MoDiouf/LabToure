@@ -1,40 +1,30 @@
-<h2>Liste des cours</h2>
-<table class="table">
-<thead>
-<tr>
-<th>Titre</th>
-<th>Description</th>
-<th>Coût</th>
-<th>Nb Max Étudiants</th>
-<th>Modifier</th>
-<th>Supprimer</th>
+<!-- views/courses/index.ejs -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses</title>
+</head>
+<body>
+    <h1>Courses</h1>
+    
+    <% if (courses && courses.length > 0) { %>
+        <ul>
+            <% courses.forEach(function(course) { %>
+                <li>
+                    <strong><%= course.title %></strong><br>
+                    <%= course.description %><br>
+                    Prix: <%= course.cost %>€<br>
+                    Niveau: <%= course.level %>
+                    <a href="/courses/<%= course._id %>">Voir</a>
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>Aucun cours disponible.</p>
+    <% } %>
 
-</tr>
-</thead>
-<tbody>
-<% courses.forEach(course => { %>
-<tr>
-<td>
-<a href="<%= `/courses/${course._id}` %>">
-<%= course.title %>
-</a>
-</td>
-<td><%= course.description %></td>
-<td><%= course.cost %> €</td>
-<td><%= course.maxStudents %></td>
-<td>
-<a href="<%= `/courses/${course._id}/edit` %>">
-Modifier
-</a>
-</td>
-<td>
-<a href="<%= `/courses/${course._id}/delete?_method=DELETE` %>"
-onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce cours?')">
-Supprimer
-</a>
-</td>
-</tr>
-<% }); %>
-</tbody>
-</table>
-<a href="/courses/new" class="btn btn-primary">Créer un nouveau cours</a>
+    <a href="/courses/new">Ajouter un nouveau cours</a>
+</body>
+</html>
