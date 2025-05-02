@@ -14,10 +14,13 @@ module.exports = {
   }),
 
   logout: (req, res, next) => {
-    req.logout();
-    req.flash("success", "Vous avez été déconnecté avec succès!");
-    res.locals.redirect = "/";
-    next();
+    req.logout((err)=>{
+      if (err) return next(err)
+      req.flash("success", "Vous avez été déconnecté avec succès!");
+      res.redirect("/");
+      next();
+    });
+   
   },
 
   signup: (req, res) => {
@@ -25,7 +28,7 @@ module.exports = {
   },
 
   register: (req, res, next) => {
-    if (req.skip) return next();
+    if (req.skip) return;
     let newUser = new User({
       name: {
         first: req.body.first,
@@ -38,12 +41,11 @@ module.exports = {
     User.register(newUser, req.body.password, (error, user) => {
       if (user) {
         req.flash("success", `Le compte de ${user.fullName} a été créé avec succès!`);
-        res.locals.redirect = "/";
-        next();
+        res.redirect("/");
+        
       } else {
         req.flash("error", `Échec de la création du compte utilisateur: ${error.message}`);
-        res.locals.redirect = "/signup";
-        next();
+        res.redirect("/");
       }
     });
   },

@@ -21,10 +21,9 @@ router.get("/subscribers/:id", apiController.getSubscriberById);
 router.post("/subscribers", apiController.createSubscriber);
 router.put("/subscribers/:id", apiController.updateSubscriber);
 router.delete("/subscribers/:id", apiController.deleteSubscriber);
-
 // Route pour la documentation (n'a pas besoin de token)
-router.get("/documentation", (req, res) => {
-    res.render("api/documentation");
+router.get("/users", (req, res) => {
+    res.render("users/api-token");
     });
 // Génération de token pour l'API
 router.post("/login", apiController.apiAuthenticate);
